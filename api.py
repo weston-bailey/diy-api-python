@@ -2,9 +2,6 @@ from flask import Flask, jsonify, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from crud.widget_crud import *
 
-test_print_1(123)
-test_print_2(213542345)
-
 # import models when they are created
 
 # initialize flask app
@@ -13,7 +10,7 @@ app = Flask(__name__)
 # config app wtih db
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/flasql'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/flask_widgets'
 
 # ROUTES
 
