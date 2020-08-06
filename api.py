@@ -1,8 +1,6 @@
 from flask import Flask, jsonify, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from crud.widget_crud import *
-
-# import models when they are created
+# from crud.widget_crud import *
 
 # initialize flask app
 app = Flask(__name__)
@@ -11,6 +9,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/flask_widgets'
+
+# import CRUD functions after db is set up
+from crud.widget_crud import *
 
 # ROUTES
 
@@ -23,20 +24,17 @@ def home():
 @app.route('/widgets', methods=['GET', 'POST'])
 def all_widgets():
     if request.method == 'GET': 
-      return jsonify({ 'message': 'READ all widgets' })
+      return get_all_widgets()
     if request.method == 'POST': 
-      return jsonify({ 'message': 'CREATE new widget' })
+      create_widget(request.form['name'], request.form['wodgets'], request.form['quantity'])
+      return redirect('/widgets')
 
-#GET : READ one widget/PUT : UPDATE one widget 
-@app.route('/widget/<id>', methods=['GET', 'POST', 'DELETE'])
+#GET : READ one widget/PUT : UPDATE one widget /DELETE : DESTROY one widget
+@app.route('/widget/<id>', methods=['GET', 'PUT', 'DELETE'])
 def detail_widget(id):
     if request.method == 'GET': 
-      return jsonify({ 'message': f'READ one widget at id {id}' })
-    if request.method == 'POST': 
-      return jsonify({ 'message': f'UPDATE one widget at id {id}' })
+      return get_widget(id)
+    if request.method == 'PUT': 
+      return update_widget(id, request.form['name'], request.form['wodgets'], request.form['quantity'])
     if request.method == 'DELETE': 
-      return jsonify({ 'message': f'DELETE one widget at id {id}' })
-
-
-
-    
+      return destroy_widget(id)

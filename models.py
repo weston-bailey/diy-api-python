@@ -1,15 +1,10 @@
 from api import app
 from flask_sqlalchemy import SQLAlchemy
 
-# create widget model
-# id: int
-# name: text
-# wodgets: int
-# quntity: int
-
 # init a db
 db = SQLAlchemy(app)
 
+# widget model
 class Widget(db.Model):
   __tablename__='widgets'
 
@@ -20,10 +15,10 @@ class Widget(db.Model):
 
   def as_dict(self):
     return {
-      id: self.id,
-      name: self.name,
-      wodgets: self.wodgets,
-      quantity: self.quantity
+      'id': self.id,
+      'name': self.name,
+      'wodgets': self.wodgets,
+      'quantity': self.quantity
     }
 
   def __repr__(self):
